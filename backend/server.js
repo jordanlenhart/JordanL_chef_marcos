@@ -66,14 +66,14 @@ app.get("/menu/:id", function(request, response) {
 app.use(express.json());
 
 // Using post to post new reservations
-app.post("/reservations", function (request, response) {
+// app.post("/reservations", function (request, response) {
 
-  // this shows up in the terminal
-  console.warn("POST /reservations called, but not implemented.")
+//   // this shows up in the terminal
+//   console.warn("POST /reservations called, but not implemented.")
 
-  // this shows up in Postman
-  response.status(501).send("Route exists but isn’t implemented yet!")
-})
+//   // this shows up in Postman
+//   response.status(501).send("Route exists but isn’t implemented yet!")
+// })
 
 
 // Exercise: Chef Marco wants the search
@@ -91,4 +91,17 @@ app.get("/menu", function (request, response) {
   const filteredMenuItems = menu.filter(menuItem => menuItem.price <= maxPrice)
 
   response.json(filteredMenuItems)
+})
+
+
+// Exercise: Chef Marco’s Handling Reservations
+
+app.post("/reservations", function (request, response) {
+  const { name, date, time } = request.body
+  
+  if(!name || !date || !time) {
+    return response.status(400).send("Missing fields.")
+  }
+
+  response.status(201).send(`${name}, thank you for reserving on ${date} at ${time}`)
 })
