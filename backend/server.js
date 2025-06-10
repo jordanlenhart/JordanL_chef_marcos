@@ -105,3 +105,30 @@ app.post("/reservations", function (request, response) {
 
   response.status(201).send(`${name}, thank you for reserving on ${date} at ${time}`)
 })
+
+
+
+// Exercise: Protecting Chef Marco’s Recipes (Route Level)
+
+function checkChef(request, response, next) {
+  if (request.headers.role === "chef") {
+    next()
+  } else {
+    response.status(403).json({error: "Access denied. You are not Chef."})
+  }
+}
+
+app.get("/chef/secret-recipe", checkChef, function (request, response) {
+  response.json({
+    recipe: {
+      name: "Marco's Masterpiece",
+      ingredients: [
+        "various cheeses",
+        "various sauces",
+        "various spices",
+        "and a whole lotta Italian"
+      ],
+      instructions: "Mix in a pot, bake at 400°F for 30 minutes. Buongiorno."
+    }
+  })
+})
