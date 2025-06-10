@@ -16,6 +16,14 @@ app.listen(8080, function () {
   console.log("Server is listening on 8080");
 });
 
+// Exercise: Logging (App Level)
+
+app.use(function (request, response, next) {
+  const time = new Date().toISOString()
+  console.log(`[${time}] ${request.method} ${request.path}`)
+  next()
+})
+
 // Creating a constant variable for the menu array
 const menu = [
     {
