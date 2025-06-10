@@ -45,9 +45,9 @@ const menu = [
 // Exercise: Chef Marco needs a menu!
 
 // Using get to bring up the menu array, tested using Postman
-app.get("/menu", function (request, response){
-    response.json(menu)
-})
+// app.get("/menu", function (request, response){
+//     response.json(menu)
+// })
 
 // Using get to show the menu items individually based on their Id
 app.get("/menu/:id", function(request, response) {
@@ -73,4 +73,22 @@ app.post("/reservations", function (request, response) {
 
   // this shows up in Postman
   response.status(501).send("Route exists but isn’t implemented yet!")
+})
+
+
+// Exercise: Chef Marco wants the search
+
+app.get("/menu", function (request, response) {
+  // setting the max price
+  const maxPrice = parseFloat(request.query.maxPrice)
+
+  // if no maxPrice, return the menu
+  if (isNaN(maxPrice)) {
+    return response.json(menu)
+  }
+
+  // filter by price with .filter
+  const filteredMenuItems = menu.filter(menuItem => menuItem.price <= maxPrice)
+
+  response.json(filteredMenuItems)
 })
